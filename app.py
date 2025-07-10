@@ -12,7 +12,7 @@ GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '.')))
 
 # Import functions from the rag_model script
-from rag_model import ingest_documents, load_vector_db, create_rag_chain, answer_question, FAISS_INDEX_PATH, EMBEDDING_MODEL_NAME, PAPER_DETAILS, PDF_DIR, LLM_MODEL, GROQ_API_KEY
+from rag_model import ingest_documents, load_vector_db, create_rag_chain, answer_question, FAISS_INDEX_PATH, EMBEDDING_MODEL_NAME, PAPER_DETAILS
 
 # Set up logging for the Streamlit app
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
