@@ -174,9 +174,14 @@ def create_rag_chain(vector_db, groq_api_key):
     logging.info("Creating retriever from vector database...")
     retriever = vector_db.as_retriever(search_kwargs={"k": 5}) # Retrieve top 5 relevant chunks
 
-    template = """You are a helpful and knowledgeable assistant.
-    Based on the provided context, answer the following question. Please only stick to the given context. 
-    If there is no relevent context, then ask the user to ask questions related to the given research papers only!.
+    template = """You are a helpful and knowledgeable assistant only able to provide an answer related to the context. 
+    Don't write - "Based on the provided context" or something similar.
+    "Answer the following question by taking help from context and say that you do not
+    know the answer if and only if the answer is too vague and if you yourself can't answer the 
+    question. And if the question is somewhat relevant to the question, try to answer as much as possible
+    before giving up and saying i don't know.
+    If you respond that you don't know then replace the whole text with - 
+    "I don't know. Please ask questions corresponding to the research papers shown on the left side of the screen".
 
     Context: {context}
     
