@@ -12,8 +12,6 @@ import logging
 from langchain.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from operator import itemgetter
-from dotenv import load_dotenv
-import openai
 from langchain_groq import ChatGroq
 
 # Configure logging
@@ -160,21 +158,16 @@ if __name__ == '__main__':
 
 # --- RAG Pipeline Configuration ---
 
-load_dotenv()
-openai.api_key = os.getenv("OPENAI_API_KEY")
-mistralai_api_key = os.getenv("MISTRALAI_API_KEY")
-grq_api_key = os.getenv("GROQ_API_KEY")
-
 # Running online
 LLM_MODEL = "llama3-8b-8192"
 # LLM_MODEL = "llama2"
 
 # Creates the desired RAG pipeline using LCEL
-def create_rag_chain(vector_db):
+def create_rag_chain(vector_db, groq_api_key):
     logging.info(f"Initializing LLM with model: {LLM_MODEL}...")
 
     try:
-        llm = ChatGroq(model="llama3-8b-8192", groq_api_key="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")
+        llm = ChatGroq(model="llama3-8b-8192", groq_api_key=groq_api_key)
     except Exception as e:
         raise Exception(f"LLM initialization failed. Reason: {e}")
 

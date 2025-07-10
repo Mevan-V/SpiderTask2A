@@ -2,12 +2,17 @@ import streamlit as st
 import os
 import logging
 import sys
+from dotenv import load_dotenv
+
+# Load the API key from the .env file
+load_dotenv()
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 
 # Append parent directory to sys.path to allow importing rag_model.py
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '.')))
 
 # Import functions from the rag_model script
-from rag_model import ingest_documents, load_vector_db, create_rag_chain, answer_question, FAISS_INDEX_PATH, EMBEDDING_MODEL_NAME, PAPER_DETAILS, PDF_DIR, LLM_MODEL
+from rag_model import ingest_documents, load_vector_db, create_rag_chain, answer_question, FAISS_INDEX_PATH, EMBEDDING_MODEL_NAME, PAPER_DETAILS, PDF_DIR, LLM_MODEL, GROQ_API_KEY
 
 # Set up logging for the Streamlit app
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -37,7 +42,7 @@ def setup_rag_system():
     with st.spinner("Loading RAG system components..."):
         try:
             vector_db = load_vector_db(FAISS_INDEX_PATH, EMBEDDING_MODEL_NAME)
-            rag_chain, retriever = create_rag_chain(vector_db)
+            rag_chain, retriever = create_rag_chain(vector_db, GROQ_API_KEY)
             st.success("RAG system ready!")
             return rag_chain, retriever
         except Exception as e:
